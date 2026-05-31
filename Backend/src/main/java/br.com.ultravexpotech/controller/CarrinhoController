@@ -1,0 +1,54 @@
+package br.com.ultravexpotech.controller;
+
+import br.com.ultravexpotech.model.ItemCarrinho;
+import br.com.ultravexpotech.service.CarrinhoService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/carrinho")
+@CrossOrigin("*")
+
+public class CarrinhoController {
+
+    private final CarrinhoService service;
+
+    public CarrinhoController(CarrinhoService service) {
+        this.service = service;
+    }
+
+    //adicionar item
+    @PostMapping("/{idCliente}/adicionar")
+    public ResponseEntity<?> adicionar(
+            @PathVariable Integer idCliente,
+            @RequestBody ItemCarrinho item) {
+
+        return ResponseEntity.ok(service.adicionarItem(idCliente, item));
+    }
+
+    //listar carrinho
+    @GetMapping("/{idCliente}")
+    public ResponseEntity<List<ItemCarrinho>> listar(@PathVariable Integer idCliente) {
+        return ResponseEntity.ok(service.listarItens(idCliente));
+    }
+
+    // remover item
+    @DeleteMapping("/item/{id}")
+    public ResponseEntity<?> remover(@PathVariable Integer id) {
+        service.removerItem(id);
+        return ResponseEntity.ok("Removido");
+    }
+
+    //atualizar quantidade
+    @PutMapping("/item/{id}")
+    public ResponseEntity<?> atualizar(
+            @PathVariable Integer id,
+            @RequestBody ItemCarrinho body) {
+
+        return ResponseEntity.ok(
+                service.atualizarQuantidade(id, body.getQuantidade())
+        );
+    }
+}
