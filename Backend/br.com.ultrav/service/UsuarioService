@@ -1,0 +1,34 @@
+package br.com.ultravexpotech.service;
+
+import br.com.ultravexpotech.model.Usuario;
+import br.com.ultravexpotech.repository.UsuarioRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class UsuarioService {
+
+    private final UsuarioRepository usuarioRepositorio;
+
+    public UsuarioService(UsuarioRepository usuarioRepositorio) {
+        this.usuarioRepositorio = usuarioRepositorio;
+    }
+
+
+    public Usuario cadastrar(Usuario usuario) {
+        return usuarioRepositorio.save(usuario);
+    }
+
+
+    public Usuario login(String email, String senha) {
+        return usuarioRepositorio.findByEmail(email)
+                .filter(u -> u.getSenha().equals(senha))
+                .orElse(null);
+    }
+
+
+    public List<Usuario> listar() {
+        return usuarioRepositorio.findAll();
+    }
+}
