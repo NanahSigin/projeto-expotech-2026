@@ -1,0 +1,28 @@
+package br.com.ultravexpotech.service;
+
+import br.com.ultravexpotech.model.Administrador;
+import br.com.ultravexpotech.repository.AdministradorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+public class AdministradorService {
+
+    private final AdministradorRepository repository;
+
+    @Autowired
+    //isso é para que vc preguiçoso não precise ficar colocando uma classe dentro de outra
+    public AdministradorService(AdministradorRepository repository) {
+        this.repository = repository;
+    }
+
+    public Administrador cadastrar(Administrador administrador) {
+        return repository.save(administrador);
+    }
+
+    public Optional<Administrador> buscarParaLogin(String login) {
+        return repository.findByUsuarioOrEmail(login, login);
+    }
+}
