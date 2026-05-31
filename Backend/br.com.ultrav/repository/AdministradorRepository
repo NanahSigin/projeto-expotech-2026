@@ -1,0 +1,13 @@
+package br.com.ultravexpotech.repository;
+//ele e o banco trocam uma ideia
+import br.com.ultravexpotech.model.Administrador;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface AdministradorRepository extends JpaRepository<Administrador, Integer> {
+
+    Optional<Administrador> findByUsuarioOrEmail(String usuario, String email);
+//montar o comando de busca no banco pra você automaticamente
+    //tem que escrever dessa forma ele não é adivinha
+}
