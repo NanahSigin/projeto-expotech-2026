@@ -1,0 +1,12 @@
+package br.com.ultravexpotech.repository;
+
+import br.com.ultravexpotech.model.ItemCarrinho;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface ItemCarrinhoRepository extends JpaRepository<ItemCarrinho, Integer> {
+
+    List<ItemCarrinho> findByCarrinho_IdCarrinho(Integer idCarrinho);
+    //igual banco
+}
