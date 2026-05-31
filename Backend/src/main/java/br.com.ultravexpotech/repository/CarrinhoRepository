@@ -1,0 +1,13 @@
+package br.com.ultravexpotech.repository;
+
+import br.com.ultravexpotech.model.Carrinho;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.Optional;
+
+public interface CarrinhoRepository extends JpaRepository<Carrinho, Integer> {
+
+    Optional<Carrinho> findByIdCliente(Integer idCliente);
+    //montar o comando de busca no banco pra você automaticamente
+    //tem que escrever assim porqie ele não é adivinha
+}
