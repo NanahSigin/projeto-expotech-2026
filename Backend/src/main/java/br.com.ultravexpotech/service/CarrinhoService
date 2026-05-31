@@ -1,0 +1,71 @@
+package br.com.ultravexpotech.service;
+
+import br.com.ultravexpotech.model.Carrinho;
+import br.com.ultravexpotech.model.ItemCarrinho;
+import br.com.ultravexpotech.repository.CarrinhoRepository;
+import br.com.ultravexpotech.repository.ItemCarrinhoRepository;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Service
+public class CarrinhoService {
+
+    private final CarrinhoRepository carrinhoRepository;
+    private final ItemCarrinhoRepository itemRepository;
+
+    public CarrinhoService(CarrinhoRepository carrinhoRepository,
+                           ItemCarrinhoRepository itemRepository) {
+        this.carrinhoRepository = carrinhoRepository;
+        this.itemRepository = itemRepository;
+    }
+
+    // criar carrinho do usuário
+    public Carrinho obterCarrinho(Integer idCliente) {
+        return carrinhoRepository.findByIdCliente(idCliente)
+                .orElseGet(() -> {
+                    Carrinho c = new Carrinho();
+                    c.setIdCliente(idCliente);
+                    c.setStatus("ABERTO");
+                    c.setDataCriacao(LocalDateTime.now());
+                    return carrinhoRepository.save(c);
+                });
+    }
+
+    //adicionar item
+    public ItemCarrinho adicionarItem(Integer idCliente, ItemCarrinho item) {
+
+        Carrinho carrinho = obterCarrinho(idCliente);
+
+        item.setCarrinho(carrinho);
+
+        return itemRepository.save(item);
+    }
+
+    //listar itens
+    public List<ItemCarrinho> listarItens(Integer idCliente) {
+
+        Carrinho carrinho = obterCarrinho(idCliente);
+
+        return itemRepository.findByCarrinho_IdCarrinho(carrinho.getIdCarrinho());
+    }
+
+    // remover item
+    public void removerItem(Integer idItem) {
+        itemRepository.deleteById(idItem);
+    }
+
+    //atualizar quantidade
+    public ItemCarrinho atualizarQuantidade(Integer idItem, Integer qtd) {
+
+        ItemCarrinho item = itemRepository.findById(idItem)
+                .orElseThrow();
+        //isso aqui força ele abrir e me dar o que ta dentro
+        //se ta vazia ele me da um erro
+
+        item.setQuantidade(qtd);
+
+        return itemRepository.save(item);
+    }
+}
