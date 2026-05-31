@@ -1,0 +1,43 @@
+package br.com.ultravexpotech.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "Carrinho")
+public class Carrinho {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_carrinho")
+    private Integer idCarrinho;
+
+    @Column(name = "id_cliente", nullable = false)
+    private Integer idCliente;
+
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
+    @Column(name = "status", length = 20)
+    private String status;
+
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
+    //é tipo uma lista de coisas para so uma pessoa ou seja varias compras para um usuario
+    private List<ItemCarrinho> itens = new ArrayList<>();
+
+    public Carrinho() {}
+
+    // getters e setters
+    public Integer getIdCarrinho() { return idCarrinho; }
+    public void setIdCarrinho(Integer idCarrinho) { this.idCarrinho = idCarrinho; }
+    public Integer getIdCliente() { return idCliente; }
+    public void setIdCliente(Integer idCliente) { this.idCliente = idCliente; }
+    public LocalDateTime getDataCriacao() { return dataCriacao; }
+    public void setDataCriacao(LocalDateTime dataCriacao) { this.dataCriacao = dataCriacao; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public List<ItemCarrinho> getItens() { return itens; }
+    public void setItens(List<ItemCarrinho> itens) { this.itens = itens; }
+}
