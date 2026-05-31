@@ -1,0 +1,87 @@
+package br.com.ultravexpotech.model;
+
+import jakarta.persistence.*;
+
+@Entity
+//ta dizendo para o banco que é uma tabela
+
+@Table(name = "Administrador")
+//puxa o nome exato da tabela que ta no banco
+public class Administrador {
+
+    @Id
+    //o banco não sabe diferenciar um administrador ai esse cara entra como um cpf
+
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //esse é tipo uma chamada automatica se não precisa do id
+
+    @Column(name = "id_administrador")
+    //chama as colunas na planilha la no banco
+
+    private Integer idAdministrador;
+
+    @Column(name = "nome")
+    private String nome;
+
+    @Column(name = "usuario")
+    private String usuario;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "senha")
+    private String senha;
+
+    @Column(name = "nivel_acesso")
+    private String nivelAcesso;
+
+    // getter and setter
+
+    public Integer getIdAdministrador() {
+        return idAdministrador;
+    }
+
+    public void setIdAdministrador(Integer idAdministrador) {
+        this.idAdministrador = idAdministrador;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getNivelAcesso() {
+        return nivelAcesso;
+    }
+
+    public void setNivelAcesso(String nivelAcesso) {
+        this.nivelAcesso = nivelAcesso;
+    }
+}
