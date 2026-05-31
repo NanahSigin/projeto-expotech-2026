@@ -1,0 +1,46 @@
+package br.com.ultravexpotech.service;
+
+import br.com.ultravexpotech.model.Produto;
+import br.com.ultravexpotech.repository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ProdutoService {
+
+    @Autowired
+    private ProdutoRepository produtoRepository; // Conecta com o banco de dados!
+
+    // retorna todos os produtos direto do MySQL
+    public List<Produto> listarProdutos() {
+        return produtoRepository.findAll();
+    }
+
+    public List<Produto> listarDestaques() {
+        // buscamos todos e filtramos
+        return produtoRepository.findAll().stream()
+                .filter(Produto::getDestaque)
+                .toList();
+    }
+
+    // Pesquisa por nome no banco de dados
+    public List<Produto> pesquisar(String nome) {
+        return produtoRepository.findAll().stream()
+                .filter(p -> p.getNome().toLowerCase().contains(nome.toLowerCase()))
+                .toList();
+    }
+
+    // busca por categoria direto do banco de dados
+    public List<Produto> buscarPorCategoria(String categoria) {
+        return produtoRepository.findAll().stream()
+                .filter(p -> p.getCategoria().equalsIgnoreCase(categoria))
+                .toList();
+    }
+
+    // busca um único produto pelo ID no banco de dados
+    public Produto buscarProduto(Long id) {
+        return produtoRepository.findById(id).orElse(null);
+    }
+}
