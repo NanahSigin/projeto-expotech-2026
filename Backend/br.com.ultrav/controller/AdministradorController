@@ -1,0 +1,57 @@
+package br.com.ultravexpotech.controller;
+
+
+import br.com.ultravexpotech.model.Administrador;
+import br.com.ultravexpotech.service.AdministradorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import java.util.Optional;
+//a unica importção sem taxa que eu conheço
+
+@RestController
+//Esta classe vai atender pedidos da internet la vai ficar ouvindo rotas como /carrinho, /produtos
+
+@CrossOrigin("*")
+//esse aqui pede para todos entrarem... mas assim é perigoso, porque acaba abrindo vulnerabilidade
+
+@RequestMapping("/adm")
+//isso aqui é tipo coloca um endereçov quem for dessa rua vem desse endereço
+
+public class AdministradorController {
+
+    private final AdministradorService administradorService;
+
+    @Autowired
+    //isso é para que vc preguiçoso não precise ficar colocando uma classe dentro de outra
+    public AdministradorController(AdministradorService administradorService) {
+        this.administradorService = administradorService;
+    }
+
+    @PostMapping("/cadastro")
+    // Rota para cadastrar novos adms (http://localhost:8080/adm/cadastro)
+    public ResponseEntity<Administrador> cadastrar(@RequestBody Administrador adm) {
+        Administrador novoAdm = administradorService.cadastrar(adm);
+        return ResponseEntity.ok(novoAdm);
+    }
+
+
+    @PostMapping("/login")
+    // Rota de Login para a área administrativa (http://localhost:8080/adm/login)
+    public ResponseEntity<?> login(@RequestBody Administrador loginRequest) {
+//RequestBody é tradutor de caixa JSON (é para traduzir o que o seu front manda pq ele só le a liguagem dele)
+        String identificador = loginRequest.getUsuario() != null ? loginRequest.getUsuario() : loginRequest.getEmail();
+//regras de portugues não se aplicam... ou seja ? significa então
+        Optional<Administrador> admOpcional = administradorService.buscarParaLogin(identificador);
+
+        if (admOpcional.isPresent()) {
+            Administrador adm = admOpcional.get();
+            if (adm.getSenha().equals(loginRequest.getSenha())) {
+                return ResponseEntity.ok(adm);
+            }
+        }
+
+        return ResponseEntity.status(401).body("Usuário, e-mail ou senha incorretos.");
+
+    }
+}
