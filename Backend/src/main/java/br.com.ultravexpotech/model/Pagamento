@@ -1,0 +1,39 @@
+package br.com.ultravexpotech.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+public class Pagamento {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String metodoPagamento;
+    private String status;
+    private Double valorTotal;
+    private LocalDateTime data;
+
+    // construtor
+    public Pagamento() {
+        this.data = LocalDateTime.now();
+    }
+
+    // setter
+    public void setMetodoPagamento(String metodoPagamento) {
+        this.metodoPagamento = metodoPagamento;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    // getter...
+    public String getMetodoPagamento() { return metodoPagamento; }
+    public String getStatus() { return status; }
+}
