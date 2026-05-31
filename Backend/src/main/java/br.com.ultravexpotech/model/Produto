@@ -1,0 +1,111 @@
+package br.com.ultravexpotech.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+
+@Entity
+@Table(name = "Produto")
+public class Produto {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_produto")
+    private Long id;
+
+    private String nome;
+
+    private Double preco;
+
+    private String categoria;
+
+    private Boolean destaque;
+
+    private String descricao;
+
+    @Column(name = "imagem_url")
+    private String imagemUrl;
+
+    //construtor ...
+    public Produto() {
+    }
+
+    public Produto(
+            Long id,
+            String nome,
+            Double preco,
+            String categoria,
+            Boolean destaque,
+            String descricao,
+            String imagemUrl
+    ) {
+        this.id = id;
+        this.nome = nome;
+        this.preco = preco;
+        this.categoria = categoria;
+        this.destaque = destaque;
+        this.descricao = descricao;
+        this.imagemUrl = imagemUrl;
+    }
+
+    // getter e setter
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+
+    public Boolean getDestaque() {
+        return destaque;
+    }
+
+    public void setDestaque(Boolean destaque) {
+        this.destaque = destaque;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getImagemUrl() {
+        return imagemUrl;
+    }
+
+    public void setImagemUrl(String imagemUrl) {
+        this.imagemUrl = imagemUrl;
+    }
+}
